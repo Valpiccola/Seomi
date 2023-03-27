@@ -1,8 +1,28 @@
 # Welcome to Seomi
 
-This tool helps you analyze the SEO attributes of web pages by extracting relevant data and storing it in a PostgreSQL database. The tool is written in Python and uses BeautifulSoup for HTML parsing.
+## 🚀 Introducing Seom𝗶: A Powerful Open-Source SEO Analysis Tool 🕵️🔍
 
-## Output
+Ever wondered how your website could perform better in search engines? Well, wait no more! We are excited to present 𝗦𝗲𝗼𝗺𝗶, an all-in-one SEO analyzer that extracts vital data from web pages and stores it in a PostgreSQL database for further analysis. 📊
+
+## 🔥 Seomi Features:
+✅ Title, meta description, and headings analysis
+✅ Internal and external link analysis
+✅ URL, title, and meta description length
+✅ Response time, status, and word count
+✅ Page size and text ratio
+✅ Canonical URL, meta robots, and image alt attributes
+✅ Structured data, broken links, and language tags
+
+## 🎓 Getting started:
+1️⃣ Create a PostgreSQL database and table
+2️⃣ Set up environment variables for your database credentials
+3️⃣ Run the script by providing your sitemap URL
+
+Built with Python, BeautifulSoup, and Requests, Seomi is designed to be user-friendly and efficient, providing you with a comprehensive set of metrics to analyze your website's SEO performance. 🐍🌐
+
+## More infos
+
+### Output
 The seo_data table contains the following columns:
 
 - **id**: A unique identifier for each record.
@@ -32,9 +52,9 @@ The seo_data table contains the following columns:
 - **language_tags**: The language tag of the web page.
 - **timestamp**: The date and time the record was created.
 
-## Getting Started
+## HOW TO
 
-### 1: Create a PostgreSQL database and create a dedicated table:
+#### 1: Create a PostgreSQL database and create a dedicated table:
 
 ```sql
 CREATE TABLE seo_data (
@@ -67,7 +87,7 @@ CREATE TABLE seo_data (
 );
 ```
 
-### 2: Set the environment variables for your database credentials.
+#### 2: Set the environment variables for your database credentials.
 
 ```shell
 export DB_USER=
@@ -77,7 +97,7 @@ export DB_PORT=
 export DB_NAME=postgres
 ```
 
-### 3: Call the script passing your sitemap url
+#### 3: Call the script passing your sitemap url
 
 ```shell
 python spider.py "https://valpiccola.com/sitemap.xml"
