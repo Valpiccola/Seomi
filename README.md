@@ -5,18 +5,18 @@
 Ever wondered how your website could perform better in search engines? Well, wait no more! We are excited to present 𝗦𝗲𝗼𝗺𝗶, an all-in-one SEO analyzer that extracts vital data from web pages and stores it in a PostgreSQL database for further analysis. 📊
 
 ## 🔥 Seomi Features:
-✅ Title, meta description, and headings analysis
-✅ Internal and external link analysis
-✅ URL, title, and meta description length
-✅ Response time, status, and word count
-✅ Page size and text ratio
-✅ Canonical URL, meta robots, and image alt attributes
-✅ Structured data, broken links, and language tags
+- ✅ Title, meta description, and headings analysis
+- ✅ Internal and external link analysis
+- ✅ URL, title, and meta description length
+- ✅ Response time, status, and word count
+- ✅ Page size and text ratio
+- ✅ Canonical URL, meta robots, and image alt attributes
+- ✅ Structured data, broken links, and language tags
 
 ## 🎓 Getting started:
-1️⃣ Create a PostgreSQL database and table
-2️⃣ Set up environment variables for your database credentials
-3️⃣ Run the script by providing your sitemap URL
+- 1️⃣ Create a PostgreSQL database and table
+- 2️⃣ Set up environment variables for your database credentials
+- 3️⃣ Run the script by providing your sitemap URL
 
 Built with Python, BeautifulSoup, and Requests, Seomi is designed to be user-friendly and efficient, providing you with a comprehensive set of metrics to analyze your website's SEO performance. 🐍🌐
 
