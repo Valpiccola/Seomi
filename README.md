@@ -100,6 +100,11 @@ export DB_NAME=postgres
 #### 3: Call the script passing your sitemap url
 
 ```shell
-python spider.py "https://valpiccola.com/sitemap.xml"
+python seomi.py "https://valpiccola.com/sitemap.xml"
 
 ```
+
+
+## Upcoming Features
+
+1. Automatically flag fields with errors
