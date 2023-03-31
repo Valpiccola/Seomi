@@ -5,13 +5,11 @@
 Ever wondered how your website could perform better in search engines? Well, wait no more! We are excited to present 𝗦𝗲𝗼𝗺𝗶, an all-in-one SEO analyzer that extracts vital data from web pages and stores it in a PostgreSQL database for further analysis. 📊
 
 ## 🔥 Seomi Features:
-- ✅ Title, meta description, and headings analysis
-- ✅ Internal and external link analysis
-- ✅ URL, title, and meta description length
-- ✅ Response time, status, and word count
-- ✅ Page size and text ratio
-- ✅ Canonical URL, meta robots, and image alt attributes
-- ✅ Structured data, links, and language tags
+- ✅ Extracts URLs from a sitemap XML file
+- ✅ Processes each URL by extracting various SEO metrics
+- ✅ Generates SEO alerts based on the extracted metrics
+- ✅ Saves the metrics to a PostgreSQL database
+- ✅ Prints a summary report of the processed URLs with associated alerts
 
 ## 🎓 Getting started:
 - 1️⃣ Create a PostgreSQL database and table
@@ -68,7 +66,7 @@ CREATE TABLE seo_data (
 
 ```shell
 export DB_USER=
-export DB_PASSWORD=
+export DB_PASS=
 export DB_HOST=
 export DB_PORT=
 export DB_NAME=postgres
@@ -84,5 +82,5 @@ python seomi.py "https://valpiccola.com/sitemap.xml"
 ## Upcoming Features
 
 1. Automatically flag fields with errors: DONE
-2. Testing
-3. Console recap
+2. Console recap: DONE
+3. Testing
