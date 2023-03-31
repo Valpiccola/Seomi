@@ -33,6 +33,8 @@ The seo_data table contains the following columns:
 - **h2**: A JSON object containing the text content of all second level headings.
 - **internal_links**: A JSON object containing all internal links found on the web page.
 - **external_links**: A JSON object containing all external links found on the web page.
+- **count_internal_links**: The count of interal links.
+- **count_external_links**: The count of external links.
 - **url_length**: The length of the URL.
 - **title_length**: The length of the title.
 - **meta_description_length**: The length of the meta description.

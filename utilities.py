@@ -1,6 +1,7 @@
 import re
 import json
 from urllib.parse import urlparse
+from urllib.parse import urljoin
 
 
 def extract_title(soup):
@@ -21,11 +22,23 @@ def extract_h2(soup):
 
 
 def extract_internal_links(soup, url):
-    return [a['href'] for a in soup.find_all('a', href=True) if urlparse(a['href']).netloc == urlparse(url).netloc]
+    internal_links = [urljoin(url, a['href']) for a in soup.find_all('a', href=True) if urlparse(urljoin(url, a['href'])).netloc == urlparse(url).netloc]
+    return json.dumps(internal_links)
 
 
 def extract_external_links(soup, url):
-    return json.dumps([a['href'] for a in soup.find_all('a', href=True) if urlparse(a['href']).netloc != urlparse(url).netloc])
+    external_links = [urljoin(url, a['href']) for a in soup.find_all('a', href=True) if urlparse(urljoin(url, a['href'])).netloc != urlparse(url).netloc]
+    return json.dumps(external_links)
+
+
+def count_internal_links(internal_links_json):
+    internal_links = json.loads(internal_links_json)
+    return len(internal_links)
+
+
+def count_external_links(external_links_json):
+    external_links = json.loads(external_links_json)
+    return len(external_links)
 
 
 def extract_url_length(url):

@@ -22,7 +22,7 @@ def main(sitemap_url):
     conn = psycopg2.connect(
         dbname=os.environ['DB_NAME'],
         user=os.environ['DB_USER'],
-        password=os.environ['DB_PASSWORD'],
+        password=os.environ['DB_PASS'],
         host=os.environ['DB_HOST'],
         port=os.environ['DB_PORT']
     )
@@ -47,6 +47,8 @@ def process_url(url, cursor, conn):
     item['h2'] = extract_h2(soup)
     item['internal_links'] = extract_internal_links(soup, url)
     item['external_links'] = extract_external_links(soup, url)
+    item['count_internal_links'] = count_internal_links(item['internal_links'])
+    item['count_external_links'] = count_external_links(item['external_links'])
     item['url_length'] = extract_url_length(url)
     item['title_length'] = extract_title_length(item['title'])
     item['meta_description_length'] = extract_meta_description_length(item['meta_description'])
