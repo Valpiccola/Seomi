@@ -7,7 +7,6 @@ from tqdm import tqdm
 from bs4 import BeautifulSoup
 import xml.etree.ElementTree as ET
 from utilities import *
-from colorama import Fore, Style
 from termcolor import colored
 
 timestamp = datetime.datetime.now()
