@@ -118,9 +118,9 @@ def extract_meta_keywords(soup):
 def generate_seo_alerts(item):
     alerts = {
         'alert_missing_title': item['title'] is None,
-        'alert_long_title': (item['title_length'] < 55 or item['title_length'] > 60) if item['title_length'] is not None else False,
+        'alert_title_length': (item['title_length'] < 55 or item['title_length'] > 60) if item['title_length'] is not None else False,
         'alert_missing_meta_description': item['meta_description'] is None,
-        'alert_long_meta_description': (item['meta_description_length'] < 155 or item['meta_description_length'] > 160) if item['meta_description_length'] is not None else False,
+        'alert_meta_description_length': (item['meta_description_length'] < 155 or item['meta_description_length'] > 160) if item['meta_description_length'] is not None else False,
         'alert_missing_h1': item['h1'] is None,
         'alert_incorrect_canonical_url': item['canonical_url'] is None or item['canonical_url'] != item['url'],
         'alert_missing_image_alt_attributes': any(alt is None for alt in json.loads(item['image_alt_attributes'])),
@@ -129,4 +129,5 @@ def generate_seo_alerts(item):
         'alert_no_meta_robots_or_incorrect_directives': item['meta_robots'] is None or 'noindex' in item['meta_robots'].lower() or 'nofollow' in item['meta_robots'].lower(),
     }
     alerts['has_alert'] = any(alerts.values())
-    return alerts
+    alert_names = list(alerts.keys())
+    return alerts, alert_names

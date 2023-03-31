@@ -3,9 +3,12 @@ import sys
 import datetime
 import psycopg2
 import requests
+from tqdm import tqdm
 from bs4 import BeautifulSoup
 import xml.etree.ElementTree as ET
 from utilities import *
+from colorama import Fore, Style
+from termcolor import colored
 
 timestamp = datetime.datetime.now()
 
@@ -28,11 +31,16 @@ def main(sitemap_url):
     )
     cursor = conn.cursor()
 
-    for url in urls:
-        process_url(url, cursor, conn)
+    items = []
+    alert_names = None
+    for url in tqdm(urls, desc="Processing URLs", unit="URL", ncols=80):
+        item, alert_names = process_url(url, cursor, conn)
+        items.append(item)
 
     cursor.close()
     conn.close()
+
+    print_summary_report(items, alert_names)
 
 
 def process_url(url, cursor, conn):
@@ -68,9 +76,12 @@ def process_url(url, cursor, conn):
     item['language_tags'] = extract_language_tags(soup)
     item['timestamp'] = timestamp
 
-    item.update(generate_seo_alerts(item))
+    alerts, alert_names = generate_seo_alerts(item)
+    item.update(alerts)
 
     save_to_postgresql(item, cursor, conn)
+
+    return item, alert_names
 
 
 def save_to_postgresql(item, cursor, conn):
@@ -83,6 +94,24 @@ def save_to_postgresql(item, cursor, conn):
     data = tuple(item.values())
     cursor.execute(query, data)
     conn.commit()
+
+
+def print_summary_report(items, alert_names):
+    total_urls = len(items)
+    urls_with_alerts = sum(1 for item in items if item['has_alert'])
+    urls_without_alerts = total_urls - urls_with_alerts
+
+    print(colored(f"\nTotal URLs: {total_urls}", "green"))
+    print(colored(f"URLs without alerts: {urls_without_alerts}", "blue"))
+    print(colored(f"URLs with alerts: {urls_with_alerts}", "red"))
+
+    print(colored("\nAlerts breakdown:", "cyan"))
+    for alert_type in alert_names:
+        if alert_type != 'has_alert':
+            alert_count = sum(1 for item in items if item[alert_type])
+            print(colored(f"\t{alert_type}: {alert_count}", "yellow"))
+
+    print(colored("\nSummary report completed.", "magenta"))
 
 
 if __name__ == '__main__':
