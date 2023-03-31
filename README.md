@@ -2,6 +2,8 @@
 
 ## 🚀 Introducing Seom𝗶: A Powerful Open-Source SEO Analysis Tool 🕵️🔍
 
+<img width="954" alt="Screenshot 2023-04-01 at 00 41 56" src="https://user-images.githubusercontent.com/30242227/229245353-0ea398da-720d-4ca2-85ad-a75b2a9848c6.png">
+
 Ever wondered how your website could perform better in search engines? Well, wait no more! We are excited to present 𝗦𝗲𝗼𝗺𝗶, an all-in-one SEO analyzer that extracts vital data from web pages and stores it in a PostgreSQL database for further analysis. 📊
 
 ## 🔥 Seomi Features:
