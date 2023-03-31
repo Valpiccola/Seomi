@@ -33,12 +33,12 @@ def extract_external_links(soup, url):
 
 def count_internal_links(internal_links_json):
     internal_links = json.loads(internal_links_json)
-    return len(internal_links)
+    return len(set(internal_links))
 
 
 def count_external_links(external_links_json):
     external_links = json.loads(external_links_json)
-    return len(external_links)
+    return len(set(external_links))
 
 
 def extract_url_length(url):
@@ -106,10 +106,10 @@ def extract_structured_data(soup):
     return json.dumps([script.string for script in soup.find_all('script', attrs={'type': 'application/ld+json'})])
 
 
-def extract_broken_links(soup, url):
-    # You can implement additional logic to identify broken links here
-    return []
-
-
 def extract_language_tags(soup):
     return soup.html['lang'] if 'lang' in soup.html.attrs else None
+
+
+def extract_meta_keywords(soup):
+    meta_tag = soup.find('meta', attrs={'name': 'keyword'})
+    return meta_tag['content'] if meta_tag and 'content' in meta_tag.attrs else None

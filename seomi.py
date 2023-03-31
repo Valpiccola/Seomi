@@ -52,6 +52,7 @@ def process_url(url, cursor, conn):
     item['url_length'] = extract_url_length(url)
     item['title_length'] = extract_title_length(item['title'])
     item['meta_description_length'] = extract_meta_description_length(item['meta_description'])
+    item['meta_keyword'] = extract_meta_keywords(soup)
     item['h1_length'] = extract_h1_length(item['h1'])
     item['h2_length'] = extract_h2_length(item['h2'])
     item['count_paragraphs'] = extract_count_paragraphs(soup)
@@ -64,7 +65,6 @@ def process_url(url, cursor, conn):
     item['meta_robots'] = extract_meta_robots(soup)
     item['image_alt_attributes'] = extract_image_alt_attributes(soup)
     item['structured_data'] = extract_structured_data(soup)
-    item['broken_links'] = extract_broken_links(soup, url)
     item['language_tags'] = extract_language_tags(soup)
     item['timestamp'] = timestamp
 

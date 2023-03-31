@@ -11,7 +11,7 @@ Ever wondered how your website could perform better in search engines? Well, wai
 - ✅ Response time, status, and word count
 - ✅ Page size and text ratio
 - ✅ Canonical URL, meta robots, and image alt attributes
-- ✅ Structured data, broken links, and language tags
+- ✅ Structured data, links, and language tags
 
 ## 🎓 Getting started:
 - 1️⃣ Create a PostgreSQL database and table
@@ -48,9 +48,9 @@ The seo_data table contains the following columns:
 - **text_ratio**: The ratio of text content to total content on the web page.
 - **canonical_url**: The canonical URL of the web page.
 - **meta_robots**: The value of the meta robots tag of the web page.
+- **meta_keyword**: The value of the meta keyword of the web page.
 - **image_alt_attributes**: A JSON object containing the alt attribute of all images on the web page.
 - **structured_data**: A JSON object containing the structured data found on the web page.
-- **broken_links**: A JSON object containing all broken links found on the web page.
 - **language_tags**: The language tag of the web page.
 - **timestamp**: The date and time the record was created.
 
@@ -67,7 +67,9 @@ CREATE TABLE seo_data (
     h1 VARCHAR(512),
     h2 JSONB,
     internal_links JSONB,
+    count_internal_links NUMERIC,
     external_links JSONB,
+    count_external_links NUMERIC,
     url_length INTEGER,
     title_length INTEGER,
     meta_description_length INTEGER,
@@ -81,9 +83,9 @@ CREATE TABLE seo_data (
     text_ratio NUMERIC,
     canonical_url VARCHAR(2083),
     meta_robots VARCHAR(256),
+    meta_keyword VARCHAR(256),
     image_alt_attributes JSONB,
     structured_data JSONB,
-    broken_links JSONB,
     language_tags VARCHAR(32),
     timestamp TIMESTAMP
 );
