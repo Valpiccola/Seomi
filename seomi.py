@@ -68,6 +68,8 @@ def process_url(url, cursor, conn):
     item['language_tags'] = extract_language_tags(soup)
     item['timestamp'] = timestamp
 
+    item.update(generate_seo_alerts(item))
+
     save_to_postgresql(item, cursor, conn)
 
 

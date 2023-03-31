@@ -18,45 +18,7 @@ Ever wondered how your website could perform better in search engines? Well, wai
 - 2️⃣ Set up environment variables for your database credentials
 - 3️⃣ Run the script by providing your sitemap URL
 
-Built with Python, BeautifulSoup, and Requests, Seomi is designed to be user-friendly and efficient, providing you with a comprehensive set of metrics to analyze your website's SEO performance. 🐍🌐
-
-## More infos
-
-### Output
-The seo_data table contains the following columns:
-
-- **id**: A unique identifier for each record.
-- **url**: The URL of the web page being analyzed.
-- **title**: The title of the web page.
-- **meta_description**: The meta description of the web page.
-- **h1**: The first level heading of the web page.
-- **h2**: A JSON object containing the text content of all second level headings.
-- **internal_links**: A JSON object containing all internal links found on the web page.
-- **external_links**: A JSON object containing all external links found on the web page.
-- **count_internal_links**: The count of interal links.
-- **count_external_links**: The count of external links.
-- **url_length**: The length of the URL.
-- **title_length**: The length of the title.
-- **meta_description_length**: The length of the meta description.
-- **h1_length**: The length of the first level heading.
-- **h2_length**: A JSON object containing the length of each second level heading.
-- **count_paragraphs**: The number of paragraphs on the web page.
-- **response_time**: The time it took to receive a response from the web server.
-- **status**: The HTTP status code of the web page.
-- **word_count**: The total number of words on the web page.
-- **page_size**: The size of the web page in bytes.
-- **text_ratio**: The ratio of text content to total content on the web page.
-- **canonical_url**: The canonical URL of the web page.
-- **meta_robots**: The value of the meta robots tag of the web page.
-- **meta_keyword**: The value of the meta keyword of the web page.
-- **image_alt_attributes**: A JSON object containing the alt attribute of all images on the web page.
-- **structured_data**: A JSON object containing the structured data found on the web page.
-- **language_tags**: The language tag of the web page.
-- **timestamp**: The date and time the record was created.
-
-## HOW TO
-
-#### 1: Create a PostgreSQL database and create a dedicated table:
+### 1: Create a PostgreSQL database and create a dedicated table:
 
 ```sql
 CREATE TABLE seo_data (
@@ -87,11 +49,22 @@ CREATE TABLE seo_data (
     image_alt_attributes JSONB,
     structured_data JSONB,
     language_tags VARCHAR(32),
-    timestamp TIMESTAMP
+    timestamp TIMESTAMP,
+    alert_missing_title BOOLEAN,
+    alert_long_title BOOLEAN,
+    alert_missing_meta_description BOOLEAN,
+    alert_long_meta_description BOOLEAN,
+    alert_missing_h1 BOOLEAN,
+    alert_incorrect_canonical_url BOOLEAN,
+    alert_missing_image_alt_attributes BOOLEAN,
+    alert_missing_language_tag BOOLEAN,
+    alert_low_text_ratio BOOLEAN,
+    alert_no_meta_robots_or_incorrect_directives BOOLEAN,
+    has_alert BOOLEAN
 );
 ```
 
-#### 2: Set the environment variables for your database credentials.
+### 2: Set the environment variables for your database credentials.
 
 ```shell
 export DB_USER=
@@ -101,14 +74,15 @@ export DB_PORT=
 export DB_NAME=postgres
 ```
 
-#### 3: Call the script passing your sitemap url
+### 3: Call the script passing your sitemap url
 
 ```shell
 python seomi.py "https://valpiccola.com/sitemap.xml"
 
 ```
 
-
 ## Upcoming Features
 
-1. Automatically flag fields with errors
+1. Automatically flag fields with errors: DONE
+2. Testing
+3. Console recap
