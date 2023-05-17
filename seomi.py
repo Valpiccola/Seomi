@@ -21,6 +21,9 @@ def main(sitemap_url):
     for loc in root.findall('.//{http://www.sitemaps.org/schemas/sitemap/0.9}loc'):
         urls.append(loc.text)
 
+    for link in root.findall('.//xhtml:link[@rel="alternate"]', {'xhtml': 'http://www.w3.org/1999/xhtml'}):
+        urls.append(link.get('href'))
+
     conn = psycopg2.connect(
         dbname=os.environ['DB_NAME'],
         user=os.environ['DB_USER'],
