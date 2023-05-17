@@ -84,8 +84,13 @@ def extract_page_size(response):
     return len(response.content)
 
 
-def extract_text_ratio(word_count, page_size):
-    return word_count / page_size
+def extract_text_ratio(soup, response):
+    text_content = soup.get_text()
+    html_content = response.content.decode('utf-8', 'ignore')
+    text_length = len(text_content)
+    html_length = len(html_content)
+    
+    return text_length / html_length
 
 
 def extract_canonical_url(soup):
@@ -107,7 +112,17 @@ def extract_structured_data(soup):
 
 
 def extract_language_tags(soup):
-    return soup.html['lang'] if 'lang' in soup.html.attrs else None
+    lang = soup.html.get('lang')
+    if lang:
+        return lang
+
+    meta_tag = soup.find('meta', attrs={'http-equiv': 'content-language'})
+    if meta_tag:
+        content_language = meta_tag.get('content')
+        if content_language:
+            return content_language.split('-')[0]
+
+    return None
 
 
 def extract_meta_keywords(soup):

@@ -67,7 +67,7 @@ def process_url(url, cursor, conn):
     item['status'] = extract_status(response)
     item['word_count'] = extract_word_count(soup)
     item['page_size'] = extract_page_size(response)
-    item['text_ratio'] = extract_text_ratio(item['word_count'], item['page_size'])
+    item['text_ratio'] = extract_text_ratio(soup, response)
     item['canonical_url'] = extract_canonical_url(soup)
     item['meta_robots'] = extract_meta_robots(soup)
     item['image_alt_attributes'] = extract_image_alt_attributes(soup)
