@@ -11,9 +11,27 @@ from termcolor import colored
 
 timestamp = datetime.datetime.now()
 
-
 def main(sitemap_url):
+    items, alert_names = [], []
+    response = requests.get(sitemap_url)
+    root = ET.fromstring(response.content)
 
+    if root.tag.endswith('sitemapindex'):
+        for sitemap in root.findall('.//{http://www.sitemaps.org/schemas/sitemap/0.9}sitemap'):
+            loc = sitemap.find('{http://www.sitemaps.org/schemas/sitemap/0.9}loc')
+            if loc is not None:
+                sitemap_items, sitemap_alert_names = process_sitemap(loc.text)
+                items.extend(sitemap_items)
+                alert_names.extend(sitemap_alert_names)
+    else:
+        items, alert_names = process_sitemap(sitemap_url)
+
+    save_all_to_database(items)
+
+    flat_alert_names = [alert for sublist in alert_names for alert in sublist]
+    print_summary_report(items, flat_alert_names)
+
+def process_sitemap(sitemap_url):
     response = requests.get(sitemap_url)
     root = ET.fromstring(response.content)
 
@@ -24,28 +42,17 @@ def main(sitemap_url):
     for link in root.findall('.//xhtml:link[@rel="alternate"]', {'xhtml': 'http://www.w3.org/1999/xhtml'}):
         urls.append(link.get('href'))
 
-    conn = psycopg2.connect(
-        dbname=os.environ['DB_NAME'],
-        user=os.environ['DB_USER'],
-        password=os.environ['DB_PASS'],
-        host=os.environ['DB_HOST'],
-        port=os.environ['DB_PORT']
-    )
-    cursor = conn.cursor()
-
     items = []
-    alert_names = None
+    alert_names = []
+
     for url in tqdm(urls, desc="Processing URLs", unit="URL", ncols=80):
-        item, alert_names = process_url(url, cursor, conn)
+        item, alert_name = process_url(url)
         items.append(item)
+        alert_names.append(alert_name)
 
-    cursor.close()
-    conn.close()
+    return items, alert_names
 
-    print_summary_report(items, alert_names)
-
-
-def process_url(url, cursor, conn):
+def process_url(url):
     response = requests.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')
 
@@ -81,9 +88,24 @@ def process_url(url, cursor, conn):
     alerts, alert_names = generate_seo_alerts(item)
     item.update(alerts)
 
-    save_to_postgresql(item, cursor, conn)
-
     return item, alert_names
+
+
+def save_all_to_database(items):
+    conn = psycopg2.connect(
+        dbname=os.environ['DB_NAME'],
+        user=os.environ['DB_USER'],
+        password=os.environ['DB_PASS'],
+        host=os.environ['DB_HOST'],
+        port=os.environ['DB_PORT']
+    )
+    cursor = conn.cursor()
+
+    for item in tqdm(items, desc="Saving to Database", unit="URL", ncols=80):
+        save_to_postgresql(item, cursor, conn)
+
+    cursor.close()
+    conn.close()
 
 
 def save_to_postgresql(item, cursor, conn):
@@ -108,13 +130,12 @@ def print_summary_report(items, alert_names):
     print(colored(f"URLs with alerts: {urls_with_alerts}", "red"))
 
     print(colored("\nAlerts breakdown:", "cyan"))
-    for alert_type in alert_names:
+    for alert_type in set(alert_names):
         if alert_type != 'has_alert':
-            alert_count = sum(1 for item in items if item[alert_type])
+            alert_count = sum(1 for item in items if item.get(alert_type, False))
             print(colored(f"\t{alert_type}: {alert_count}", "yellow"))
 
     print(colored("\nSummary report completed.", "magenta"))
-
 
 if __name__ == '__main__':
     sitemap_url = sys.argv[1]
